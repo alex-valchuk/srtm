@@ -44,7 +44,15 @@ namespace SRTM
         /// Represents errors that occur during application execution.
         /// </exception>
         int? GetElevation(double latitude, double longitude);
-        
+
+        /// <summary>
+        /// Method responsible for identifying the correct data cell and either retrieving it from cache ir downloading it from source.
+        /// </summary>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <returns>Elevation data cell. Must be an instance of the <see cref="SRTM.ISRTMDataCell"/> class.</returns>
+        ISRTMDataCell GetDataCell(double latitude, double longitude);
+
         /// <summary>
         /// Gets the elevation. Data is smoothed using bilinear interpolation.
         /// </summary>

@@ -6,11 +6,12 @@
     <ApplicationIcon />
     <StartupObject />
     <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup>
     <DefineConstants>LIBLOG_PORTABLE</DefineConstants>
-    <Version>0.0.7</Version>
+    <Version>0.0.8</Version>
     <Authors>Ben Abelshausen</Authors>
     <Company>Itinero</Company>
     <Description>A library to read SRTM data, loads missing files on-the-fly.</Description>

@@ -31,7 +31,27 @@ namespace SRTM
 
         public int Longitude { get; private set; }
 
+        public byte[] HgtData => Array.Empty<byte>();
+
+        public int PointsPerCell => -1;
+
+        public int VerticalPointsPerCell => -1;
+
+        public double PointHeightInMeters => -1;
+
+        public double PointWidthInMeters => -1;
+
+        public int GetBytePositionByCoordinate(double latitude, double longitude)
+        {
+            return 0;
+        }
+
         public int? GetElevation(double latitude, double longitude)
+        {
+            return null;
+        }
+
+        public int? GetElevation(int bytesPos)
         {
             return null;
         }

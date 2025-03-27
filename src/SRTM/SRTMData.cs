@@ -104,7 +104,7 @@ namespace SRTM
         /// <value>
         /// The SRTM data cells.
         /// </value>
-        private List<ISRTMDataCell> DataCells { get; set; }
+        protected List<ISRTMDataCell> DataCells { get; private set; }
         
         #region Public methods
 
@@ -168,7 +168,7 @@ namespace SRTM
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
         /// <returns>Elevation data cell. Must be an instance of the <see cref="SRTM.ISRTMDataCell"/> class.</returns>
-        private ISRTMDataCell GetDataCell(double latitude, double longitude)
+        public ISRTMDataCell GetDataCell(double latitude, double longitude)
         {
             int cellLatitude = (int)Math.Floor(Math.Abs(latitude));
             if (latitude < 0)
@@ -228,16 +228,9 @@ namespace SRTM
                     }
                 }
             }
-            
-            if (File.Exists(filePath))
-            {
-                dataCell = new SRTMDataCell(filePath);
-            }
-            else if(File.Exists(zipFilePath))
-            {
-                dataCell = new SRTMDataCell(zipFilePath);
-            }
-            else
+
+            if (!TryReadExistingFile(filePath, out dataCell) &&
+                !TryReadExistingFile(zipFilePath, out dataCell))
             {
                 if (count < 0)
                 {
@@ -258,6 +251,27 @@ namespace SRTM
             DataCells.Add(dataCell);
 
             return dataCell;
+        }
+
+        protected bool TryReadExistingFile(string filePath, out ISRTMDataCell dataCell)
+        {
+            dataCell = null;
+
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    dataCell = new SRTMDataCell(filePath);
+                    return true;
+                }
+            }
+            catch
+            {
+                // probably the file is corrupted.
+                File.Delete(filePath);
+            }
+
+            return false;
         }
         
         #endregion
